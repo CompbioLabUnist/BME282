@@ -7,7 +7,7 @@ LABEL maintainer="jwlee230@unist.ac.kr"
 RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 
 # APT
-RUN apt-get update && apt-get upgrade -y && apt install -y python3 python3-pip python3-wheel r-base r-base-core r-recommended r-base-dev samtools bcftools tabix openjdk-19-jdk perl cpanminus autoconf cmake make gcc g++ libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev curl wget tree unzip less
+RUN apt-get update && apt-get upgrade -y && apt-get install -y python3 python3-pip python3-wheel r-base r-base-core r-recommended r-base-dev samtools bcftools tabix openjdk-17-jdk perl cpanminus autoconf cmake make gcc g++ libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev curl wget tree unzip less
 
 # Python
 ADD requirements.txt /requirements.txt
