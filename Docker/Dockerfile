@@ -14,7 +14,7 @@ ADD requirements.txt /requirements.txt
 RUN pip3 install --requirement /requirements.txt
 
 # R
-RUN mkdir -p $HOME/.R && echo "MAKEFLAGS = -j" > $HOME/.R/Makevars && Rscript -e 'install.packages(c("BiocManager", "remotes", "blockmodeling"))' -e "BiocManager::install(c('GenomicRanges', 'XML', 'GenomeInfoDb', 'Biostrings', 'RCurl', 'Rsamtools', 'GenomicAlignments', 'restfulr'))" -e "remotes::install_github('YuLab-SMU/ggtree@b51cece3bcd1093f41c36570a47c5c1441f8c3c7')" -e 'BiocManager::install("rtracklayer")' -e 'BiocManager::install("DESeq2")' -e 'BiocManager::install("enrichplot")'
+RUN mkdir -p $HOME/.R && echo "MAKEFLAGS = -j" > $HOME/.R/Makevars && Rscript -e 'install.packages(c("BiocManager", "remotes", "blockmodeling"))' -e "BiocManager::install(c('GenomicRanges', 'XML', 'GenomeInfoDb', 'Biostrings', 'RCurl', 'Rsamtools', 'GenomicAlignments', 'restfulr', 'ggtree'))" -e 'BiocManager::install("rtracklayer")' -e 'BiocManager::install("DESeq2")' -e 'BiocManager::install("enrichplot")'
 ENV R_LIBS=/usr/local/lib/R/site-library:/usr/lib/R/site-library:/usr/lib/R/library
 
 # STAR
