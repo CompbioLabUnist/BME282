@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:2.12.0-jupyter
+FROM zerooneai/tensorflow:tensorflow-2.7.0-jupyter
 USER root
 WORKDIR /
 LABEL maintainer="jwlee230@unist.ac.kr"
