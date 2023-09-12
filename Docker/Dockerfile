@@ -25,6 +25,9 @@ ENV PATH=/STAR_2.7.11a/Linux_x86_64:$PATH
 RUN wget "https://github.com/deweylab/RSEM/archive/refs/tags/v1.3.3.zip" && unzip v1.3.3.zip && cd RSEM-1.3.3 && make -j && make ebseq -j
 ENV PATH=/RSEM-1.3.3:$PATH
 
+# Jupyter settings
+ADD jupyter_notebook_config.py /root/.jupyter/jupyter_notebook_config.py
+
 # Volume
 VOLUME /Output
 VOLUME /Data
