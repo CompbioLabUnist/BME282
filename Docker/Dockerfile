@@ -11,7 +11,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y software-properti
 
 # Python
 ADD requirements.txt /requirements.txt
-RUN pip3 install pip==23.3 && pip3 install --no-cache-dir --requirement /requirements.txt
+RUN pip3 install pip==23.3 && pip3 install --no-cache-dir --requirement /requirements.txt && ln -s /usr/bin/python3 /usr/bin/python
 
 # R
 RUN mkdir -p $HOME/.R && echo "MAKEFLAGS = -j" > $HOME/.R/Makevars && Rscript -e 'install.packages(c("BiocManager", "remotes", "blockmodeling"))' -e "BiocManager::install(c('GenomicRanges', 'XML', 'GenomeInfoDb', 'Biostrings', 'RCurl', 'Rsamtools', 'GenomicAlignments', 'restfulr', 'ggtree'))" -e 'BiocManager::install("rtracklayer")' -e 'BiocManager::install("DESeq2")' -e 'BiocManager::install("enrichplot")' -e "install.packages(c('pbdZMQ', 'repr', 'devtools'))" -e 'install.packages(c("openxlsx", "ggrepel", "tidyverse", "ggstance", "enrichR", "enrichplot", "forcats", "IRdisplay", "IRkernel"))' -e 'BiocManager::install("NOISeq")'
