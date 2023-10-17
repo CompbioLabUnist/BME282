@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM tensorflow/tensorflow:2.7.0-jupyter
 USER root
 WORKDIR /
 LABEL maintainer="jwlee230@unist.ac.kr"
@@ -7,7 +7,7 @@ LABEL maintainer="jwlee230@unist.ac.kr"
 RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 
 # APT
-RUN apt-get update && apt-get upgrade -y && apt-get install -y software-properties-common python3 python3-pip python3-wheel r-base r-base-core r-recommended r-base-dev samtools bcftools tabix openjdk-17-jdk perl cpanminus mysql-server autoconf cmake make gcc g++ cl-sql-sqlite3 sqlitebrowser libtool libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev libcairo2-dev fastqc libmysqlclient-dev libavcodec58 liblog4j2-java libcommons-configuration2-java-doc libcommons-compress-java libjettison-java libplexus-utils-java curl wget tree unzip less vim && apt-get clean
+RUN apt-get update && apt-get upgrade -y && apt-get install -y software-properties-common python3 python3-pip python3-wheel r-base r-base-core r-recommended r-base-dev samtools bcftools tabix bowtie2 openjdk-17-jdk perl cpanminus mysql-server autoconf cmake make gcc g++ cl-sql-sqlite3 sqlitebrowser libtool libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev libcairo2-dev fastqc libmysqlclient-dev libavcodec58 liblog4j2-java libcommons-configuration2-java-doc libcommons-compress-java libjettison-java libplexus-utils-java curl wget tree unzip less vim && apt-get clean
 
 # Python
 ADD requirements.txt /requirements.txt
@@ -48,8 +48,8 @@ RUN wget "https://github.com/mskcc/vcf2maf/archive/refs/tags/v1.6.21.zip" && unz
 ENV PATH=/vcf2maf-1.6.21:$PATH
 
 # Jupyter settings
-# ADD jupyter_notebook_config.py /root/.jupyter/jupyter_notebook_config.py
-# RUN Rscript -e 'IRkernel::installspec()' && mkdir -p /root/.local/share/jupyter && ln -s /usr/local/lib/R/site-library/IRkernel /root/.local/share/jupyter && ln -s /usr/local/bin/jupyter /usr/bin
+ADD jupyter_notebook_config.py /root/.jupyter/jupyter_notebook_config.py
+RUN Rscript -e 'IRkernel::installspec()' && mkdir -p /root/.local/share/jupyter && ln -s /usr/local/lib/R/site-library/IRkernel /root/.local/share/jupyter && ln -s /usr/local/bin/jupyter /usr/bin
 
-# CMD bash -c "source /etc/bash.bashrc && jupyter notebook --notebook-dir=/tf --ip 0.0.0.0 --no-browser --allow-root"
-CMD /bin/bash
+CMD bash -c "source /etc/bash.bashrc && jupyter notebook --notebook-dir=/tf --ip 0.0.0.0 --no-browser --allow-root"
+# CMD /bin/bash

@@ -1,14 +1,12 @@
 # Variables
 DATE := $(shell date "+%Y%m%d")
-IMAGE_NAME = docker.io/fumire/bme282
+IMAGE_NAME = registry.cloud.ainode.ai/unist-4th/base
 
 # Docker
 build.log: $(wildcard Docker/*)
 	rm -fv $@
 	docker build --rm --tag $(IMAGE_NAME):$(DATE) Docker | tee $@
 	docker push $(IMAGE_NAME):$(DATE)
-	docker build --rm --tag $(IMAGE_NAME) Docker
-	docker push $(IMAGE_NAME)
 
 run:
 	echo "#!/bin/bash\nmake -C $(abspath .) build.log" > tmp.sh
