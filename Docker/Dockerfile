@@ -7,11 +7,11 @@ LABEL maintainer="jwlee230@unist.ac.kr"
 RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 
 # APT
-RUN apt-get update && apt-get upgrade -y && apt-get install -y software-properties-common && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 089EBE08314DF160 && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 089EBE08314DF160 51716619E084DAB9 && add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/' && apt-get update && apt-get upgrade -y && apt-get install -y python3 python3-pip python3-wheel r-base r-base-core r-recommended r-base-dev samtools bcftools tabix openjdk-17-jdk perl cpanminus mysql-server autoconf cmake make gcc g++ cl-sql-sqlite3 sqlitebrowser libtool libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev libcairo2-dev libmysqlclient-dev libavcodec58 liblog4j2-java libcommons-configuration2-java-doc libcommons-compress-java libjettison-java libplexus-utils-java curl wget tree unzip less vim && apt-get clean
+RUN apt-get update && apt-get upgrade -y && apt-get install -y software-properties-common && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 089EBE08314DF160 && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 089EBE08314DF160 51716619E084DAB9 && add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/' && apt-get update && apt-get upgrade -y && apt-get install -y python3 python3-pip python3-wheel r-base r-base-core r-recommended r-base-dev fastqc samtools bcftools tabix bowtie2 openjdk-17-jdk perl cpanminus mysql-server autoconf cmake make gcc g++ cl-sql-sqlite3 sqlitebrowser libtool libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev libcairo2-dev libmysqlclient-dev libavcodec58 liblog4j2-java libcommons-configuration2-java-doc libcommons-compress-java libjettison-java libplexus-utils-java curl wget tree unzip less vim && apt-get clean
 
 # Python
 ADD requirements.txt /requirements.txt
-RUN pip3 install pip==23.2.1 && pip3 install --no-cache-dir --requirement /requirements.txt
+RUN pip3 install pip==23.3 && pip3 install --no-cache-dir --requirement /requirements.txt && && ln -s /usr/bin/python3 /usr/bin/python
 
 # R
 RUN mkdir -p $HOME/.R && echo "MAKEFLAGS = -j" > $HOME/.R/Makevars && Rscript -e 'install.packages(c("BiocManager", "remotes", "blockmodeling"))' -e "BiocManager::install(c('GenomicRanges', 'XML', 'GenomeInfoDb', 'Biostrings', 'RCurl', 'Rsamtools', 'GenomicAlignments', 'restfulr', 'ggtree'))" -e 'BiocManager::install("rtracklayer")' -e 'BiocManager::install("DESeq2")' -e 'BiocManager::install("enrichplot")' -e "install.packages(c('pbdZMQ', 'repr', 'devtools'))" -e 'install.packages(c("openxlsx", "ggrepel", "tidyverse", "ggstance", "enrichR", "enrichplot", "forcats", "IRdisplay", "IRkernel"))' -e 'BiocManager::install("NOISeq")'
@@ -24,10 +24,6 @@ ENV PATH=/STAR_2.7.11a/Linux_x86_64:$PATH
 # RSEM
 RUN wget "https://github.com/deweylab/RSEM/archive/refs/tags/v1.3.3.zip" && unzip v1.3.3.zip && cd RSEM-1.3.3 && make -j && make ebseq -j && rm /v1.3.3.zip
 ENV PATH=/RSEM-1.3.3:$PATH
-
-# FastqQC
-RUN wget "https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.12.1.zip" && unzip fastqc_v0.12.1.zip && rm /fastqc_v0.12.1.zip
-ENV PATH=/FastQC:$PATH
 
 # Fastq Screen
 RUN wget "https://github.com/StevenWingett/FastQ-Screen/archive/refs/tags/v0.15.3.zip" && unzip v0.15.3.zip && rm /v0.15.3.zip
