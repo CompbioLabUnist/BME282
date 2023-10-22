@@ -8,5 +8,3 @@ c.NotebookApp.notebook_dir = '/tf'
 c.NotebookApp.ip = '0.0.0.0'
 c.NotebookApp.shutdown_no_activity_timeout = 0
 c.NotebookApp.allow_origin = '*'
-c.ContentsManager.files_handler_class = None
-c.ContentsManager.files_handler_params = {}
