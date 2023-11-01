@@ -7,14 +7,14 @@ LABEL maintainer="jwlee230@unist.ac.kr"
 RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 
 # APT
-RUN apt-get update && apt-get upgrade -y && apt-get install -y software-properties-common python3 python3-pip python3-wheel r-base r-base-core r-recommended r-base-dev samtools bcftools tabix bowtie2 openjdk-17-jdk perl cpanminus mysql-server autoconf cmake make gcc g++ cl-sql-sqlite3 sqlitebrowser libtool libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev libcairo2-dev fastqc libmysqlclient-dev libavcodec58 liblog4j2-java libcommons-configuration2-java-doc libcommons-compress-java libjettison-java libplexus-utils-java curl wget tree unzip less vim && apt-get clean
+RUN apt-get update && apt-get upgrade -y && apt-get install -y software-properties-common && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 089EBE08314DF160 && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 089EBE08314DF160 51716619E084DAB9 && add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/' && apt-get install -y python3 python3-pip python3-wheel r-base r-base-core r-recommended r-base-dev samtools bcftools tabix bowtie2 openjdk-17-jdk perl cpanminus mysql-server autoconf cmake make gcc g++ cl-sql-sqlite3 sqlitebrowser libtool libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev libcairo2-dev fastqc libmysqlclient-dev libavcodec58 liblog4j2-java libcommons-configuration2-java-doc libcommons-compress-java libjettison-java libplexus-utils-java curl wget tree unzip less vim screen && apt-get clean
 
 # Python
 ADD requirements.txt /requirements.txt
 RUN pip3 install pip==23.3 && pip3 install --no-cache-dir --requirement /requirements.txt && ln -s /usr/bin/python3 /usr/bin/python
 
 # R
-RUN mkdir -p $HOME/.R && echo "MAKEFLAGS = -j" > $HOME/.R/Makevars && Rscript -e 'install.packages(c("BiocManager", "remotes", "blockmodeling"))' -e "BiocManager::install(c('GenomicRanges', 'XML', 'GenomeInfoDb', 'Biostrings', 'RCurl', 'Rsamtools', 'GenomicAlignments', 'restfulr', 'ggtree'))" -e 'BiocManager::install("rtracklayer")' -e 'BiocManager::install("DESeq2")' -e 'BiocManager::install("enrichplot")' -e "install.packages(c('pbdZMQ', 'repr', 'devtools'))" -e 'install.packages(c("openxlsx", "ggrepel", "tidyverse", "ggstance", "enrichR", "enrichplot", "forcats", "IRdisplay", "IRkernel"))' -e 'BiocManager::install("NOISeq")'
+RUN mkdir -p $HOME/.R && echo "MAKEFLAGS = -j" > $HOME/.R/Makevars && Rscript -e 'install.packages(c("BiocManager", "remotes", "blockmodeling"))' -e "BiocManager::install(c('GenomicRanges', 'XML', 'GenomeInfoDb', 'Biostrings', 'RCurl', 'Rsamtools', 'GenomicAlignments', 'restfulr', 'ggtree'))" -e 'BiocManager::install("rtracklayer")' -e 'BiocManager::install("DESeq2")' -e 'BiocManager::install("enrichplot")' -e "install.packages(c('pbdZMQ', 'repr', 'devtools'))" -e 'install.packages(c("openxlsx", "ggrepel", "tidyverse", "ggstance", "enrichR", "enrichplot", "forcats", "IRdisplay", "IRkernel"))' -e 'BiocManager::install(c("NOISeq", "UniProt.ws"))'
 ENV R_LIBS=/usr/local/lib/R/site-library:/usr/lib/R/site-library:/usr/lib/R/library
 
 # STAR
